@@ -9,12 +9,39 @@
   <title>Pokedex</title>
 </head>
 <body onload="init()">
+  <div class="overlay" id="overlay" onclick="closeOverlay()">
+    <div class="big-card" id="big-card">
+      <div class="big-card_image-background" id="big-card_image-background">
+        <img class="big-card-image" id="big-card-image" src="" alt="Pokemon Bild">
+      </div>
+      <div class="big-card_bottom">
+        <nav>
+          <ul class="ul_big-card">
+            <li>About</li>
+            <li>Base Stats</li>
+            <li>Moves</li>
+            <li>Evolution</li>
+          </ul>
+        </nav>
+        <div class="big-card-details" id="big-card-details"></div>
+      </div>
+    </div>
+  </div>
 <!-- ------------------------ Header -------------------------------- -->
   <div class="widescreen">
     <header>
-      <nav>
-        <img src="" alt="Pokedex image">
-        <input class="search-input" id="search-input" type="text">
+      <nav class="nav">
+
+        <div>
+          <img src="./assets/img/pokemon-sign.png" alt="Pokedex image" onclick="reset()">
+          <span><- reset</span>
+        </div>
+
+        <div>
+          <input class="search-input" id="search-input" type="text" pattern=".{3,}" onkeyup="searchPokemons()" placeholder="min. 3 letters" required>
+          <button class="btn btn-primary" onclick="searchPokemons()">search</button>
+        </div>
+        
       </nav>
     </header>
   </div>

@@ -1,12 +1,14 @@
 const pokemonContainerRef = document.getElementById('pokemon-container');
 const searchInputRef = document.getElementById('search-input');
-
+const overlayRef = document.getElementById('overlay');
+const bigCardRef = document.getElementById('big-card');
+const bigCardImageBackgroundRef = document.getElementById('big-card_image-background');
+const bigCardImageRef = document.getElementById('big-card-image');
+const bigCardDetailsRef = document.getElementById('big-card-details');
 
 let pokemonList = [];
-let currentPokemon;
-let id = 1;
-
-
+let pokemonNames = [];
+let start = 1;
 
 const typeColors = {
   normal:   "#A8A77A",
@@ -29,24 +31,24 @@ const typeColors = {
   fairy:    "#D685AD"
 };
 
-// async function test() {
-//     let response = await fetch("https://pokeapi.co/api/v2/pokemon/1")
-//     console.table(response);
-//     console.log(response);
-// }
-
-// test();
-
 function init(){
     // render 20 pokemon
     renderNextPokemons();
-    console.log('test');
+    getAllNames();
+}
+
+function reset(){
+    pokemonList = [];
+    pokemonNames = [];
+    start = 1;
+    pokemonContainerRef.innerHTML = '';
+    init();
 }
 
 function renderNextPokemons(){
-    for(let i = 0; i < 20;i++){
-        renderPokemon(id);
-        id++;
+    for(let i = 0; i < 40;i++){
+        renderPokemon(start);
+        start++;
     }
 }
 
@@ -58,33 +60,16 @@ async function renderPokemon(id){
     loadPokemonType(fetchedPokemon, id);
 }
 
-function pokemonCardTemplate(fetchedPokemon, id){
-    return `
-    <div class="pokemon-card">
-        <div class="details">
-            <div class="name" >${fetchedPokemon.forms[0].name}</div>
-            <div class="id" >id: ${id}</div>
-            <div class="types" id="types${id}"></div>
-        </div>
-        <div class="image-container">
-            <img class="pokemon-card-image" src="${fetchedPokemon.sprites.other['official-artwork'].front_default}" alt="">
-        </div>      
-       </div>
-    `
-}
-
 function loadPokemonType(fetchedPokemon, id){
     const typesContainerRef = document.getElementById(`types${id}`);
-    for(let i = 0; i < fetchedPokemon.types.length; i++){
-        typesContainerRef.innerHTML += typeTemplate(fetchedPokemon, i, id);
-        loadTypeColor(fetchedPokemon, i, id);
+    for(let i = 0; i < 2; i++){
+        if(fetchedPokemon.types[i] != undefined){
+            typesContainerRef.innerHTML += typeTemplate(fetchedPokemon, i, id);
+            loadTypeColor(fetchedPokemon, i, id);
+        }else{
+            typesContainerRef.innerHTML += typeFakeTemplate();
+        }
     }
-}
-
-function typeTemplate(fetchedPokemon, i, id){
-    return `
-    <div class="type" id="${id}-${i}">${fetchedPokemon.types[i].type.name}</div>
-    `
 }
 
 function loadTypeColor(fetchedPokemon, i, id){
@@ -99,10 +84,79 @@ function searchTypeColor(fetchedPokemon){
     return returnCode;
 }
 
-
 // -------------------------------------------
 
 async function getAllNames(){
-    let allNames1 = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1025&offset=0');
-    let allNames2 = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1025&offset=10277');
+    let allNames = await fetch('https://pokeapi.co/api/v2/pokemon?limit=2000&offset=0');
+    allNames = await allNames.json();
+    
+    loadAllNames(allNames);
+}
+
+function loadAllNames(allNames){
+    for(let i = 0; i < allNames.results.length; i++){
+        pokemonNames.push(allNames.results[i].name);
+    }
+}
+
+function searchPokemons(){
+    const word = document.getElementById('search-input').value.toLowerCase();
+    if(word.length >= 3){
+        const matchedPokemons = compareWord(word);
+        renderSearchResult(matchedPokemons);
+    }
+}
+
+function compareWord(word){
+    let pokemonIds = [];
+    for(let i = 0; i < pokemonNames.length; i++){
+        if(pokemonNames[i].includes(word)){
+            if(i > 1024){
+                pokemonIds.push(i - 1024 + 10000);
+                console.log(i);
+            }else{
+                pokemonIds.push(i+1);
+            }
+        }
+    }
+    return pokemonIds;
+}
+
+function renderSearchResult(matchedPokemons){
+    pokemonContainerRef.innerHTML = '';
+    console.log(matchedPokemons);
+    if(matchedPokemons.length != 0){
+        for(let i = 0; i < matchedPokemons.length; i++){
+            renderPokemon(matchedPokemons[i]);
+        }
+    }
+}
+
+function openOverlay(id){
+    overlayRef.style.display = 'block';
+    OverlayEventListeners();
+    document.body.style.overflow = 'hidden';
+    loadOverlay(id);
+}
+
+function closeOverlay(){
+    overlayRef.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function loadOverlay(id){
+
+    bigCardImageBackgroundRef.style.background = searchTypeColor(pokemonList[id]);
+    bigCardImageRef.src = `${pokemonList[id].sprites.other['official-artwork'].front_default}`;
+    renderAbout();
+}
+
+function renderAbout(){
+
+}
+
+function OverlayEventListeners(){
+    bigCardRef.addEventListener('click', (event)=>{
+        event.stopPropagation;
+    });
 }
