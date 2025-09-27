@@ -156,7 +156,7 @@ function renderAbout(){
 }
 
 function OverlayEventListeners(){
-    bigCardRef.addEventListener('click', (event)=>{
-        event.stopPropagation;
+    bigCardRef.addEventListener('click', function (e) {
+    e.stopPropagation( );
     });
 }
