@@ -1,15 +1,15 @@
 function pokemonCardTemplate(fetchedPokemon, apiIndex){
     return `
-    <div class="pokemon-card" onclick="openOverlay(${apiIndex})">
+    <div class="pokemon-card" id="pokemon${apiIndex}" onclick="openOverlay(${apiIndex})">
         <div class="pokemon-card-name">
-            <div class="name" >${fetchedPokemon.forms[0].name}</div>
+            <div class="name" >${fetchedPokemon.forms[0].name.toUpperCase()}</div>
         </div>
         <div class="pokemon-card-bottom">
             <div class="pokemon-cards-details">
                 <div class="id" >id: ${apiIndex}</div>
                 <div class="types" id="types${apiIndex}"></div>
             </div>
-            <img class="pokemon-card-image" src="${fetchedPokemon.sprites.other['official-artwork'].front_default}" alt="">
+            <img class="pokemon-card-image" src="${fetchedPokemon.sprites.other['official-artwork'].front_default}" alt="" loading="lazy">
         </div>      
        </div>
     `
@@ -109,5 +109,11 @@ function evolutionTemplate(pokemonJson){
         <p>Weight: ${(pokemonJson.weight / 10).toFixed(0)} kg</p>
         <p></p>
     </div>
+    `
+}
+
+function noResultTemplate(word){
+    return `
+    <div class="no-result">cant find Pokemons with: ${word}</div> 
     `
 }
