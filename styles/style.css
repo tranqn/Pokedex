@@ -16,6 +16,7 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 24px;
     padding-left: 4px;
     padding-right: 4px;
 }
@@ -72,7 +73,8 @@ footer{
 .pokemon-card{
     display: flex;
     flex-direction: column;
-    width: 154px;
+    justify-content: space-between;
+    width: 300px;
     height: 160px;
     padding: 8px;
     background: rgba(91, 91, 91, 0.279);
@@ -99,7 +101,13 @@ footer{
 }
 
 .pokemon-card-image{
-    height: 64px;
+    height: 92px;
+}
+
+.types{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .type{
@@ -140,7 +148,7 @@ footer{
     transform: translate(-50%, -50%);
     background-color: rgb(0, 0, 0);
     width: 300px;
-    height: 300px;
+    height: 350px;
     /* background: rgba(91, 91, 91, 0.279); */
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 2px 2px 20px rgb(255 255 255 / 5%);
@@ -166,7 +174,7 @@ footer{
 
 .big-card-details{
     width: 100%;
-    height: 100%;
+    height: 100%; /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 }
 
 .ul_big-card{
@@ -224,4 +232,36 @@ footer{
 
 .no-result{
     font-size: 24px;
+}
+
+.loadingspinner{
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    z-index: 4;
+    background-color: rgb(0, 0, 0);
+}
+
+.loadingspinner-icon{
+    height: 300px;
+    animation: rotate 2s linear infinite;
+    filter: invert(1);
+}
+
+@keyframes rotate{
+    form{
+        transform: rotate(0deg);
+    }
+
+    to{
+        transform: rotate(360deg);
+    }
+}
+
+.arrows-container{
+    display: flex;
+    justify-content: space-between;
 }

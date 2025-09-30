@@ -6,7 +6,7 @@ function pokemonCardTemplate(fetchedPokemon, apiIndex){
         </div>
         <div class="pokemon-card-bottom">
             <div class="pokemon-cards-details">
-                <div class="id" >id: ${apiIndex}</div>
+                <div class="id" >ID: ${apiIndex}</div>
                 <div class="types" id="types${apiIndex}"></div>
             </div>
             <img class="pokemon-card-image" src="${fetchedPokemon.sprites.other['official-artwork'].front_default}" alt="" loading="lazy">

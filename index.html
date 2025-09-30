@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="./assets/img/pokemon-sign-white.png" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="./styles/standard.css">
   <link rel="stylesheet" href="./styles/style.css">
   <title>Pokedex</title>
 </head>
 <body onload="init()">
+  <div class="loadingspinner" id="loadingspinner"><img class="loadingspinner-icon" src="./assets/img/pokemon-sign.png" alt="loadingspinner"></div>
   <div class="overlay" id="overlay" onclick="closeOverlay()">
     <div class="big-card" id="big-card">
       <div class="big-card_image-background" id="big-card_image-background">
@@ -24,19 +26,23 @@
           </ul>
         </nav>
         <div class="big-card-details" id="big-card-details"></div>
+        <div class="arrows-container">
+        <button class="btn btn-primary" id="previous-button">back</button>
+        <button class="btn btn-primary" id="next-button">forward</button>
+      </div>
       </div>
     </div>
   </div>
 <!-- ------------------------ Header -------------------------------- -->
   <div class="widescreen">
-    <header>
+    <header class="width-1440px">
       <nav class="nav">
 
         <div>
           <img class="pokedex-icon" src="./assets/img/pokemon-sign.png" alt="Pokedex image" onclick="reset()">
           <span><- reset</span>
         </div>
-
+        <h1>Pokédex</h1>
         <div>
           <input class="search-input" id="search-input" type="text" pattern=".{3,}" onkeyup="searchPokemons()" placeholder="min. 3 letters" required>
           <!-- <button class="btn btn-primary" onclick="searchPokemons()">search</button> -->
@@ -48,7 +54,7 @@
 <!-- ----------------------- Main -------------------------------- -->
 
   <div class="widescreen">
-    <main>
+    <main class="width-1440px">
       <div class="search-overlay" id="search-overlay"></div>
       <div class="pokemon-container" id="pokemon-container"></div>
       <button class="btn btn-primary more-button" onclick="renderNextPokemons()">more</button>
@@ -59,7 +65,7 @@
   <div class="widescreen">
 
 <!-- sticky scroll to top -->
-    <footer>
+    <footer class="width-1440px">
       - Designed by Nam -
     </footer>
   </div>
