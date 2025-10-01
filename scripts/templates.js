@@ -31,11 +31,19 @@ function typeTemplate(fetchedPokemon, i, apiIndex){
 function aboutTemplate(pokemonJson){
     return `
     <div class="about-card">
-        <div>Spicie: ${pokemonJson.species.name}</div>
-        <div>Height: ${(pokemonJson.height /10).toFixed(0)} m</div>
-        <div>Weight: ${(pokemonJson.weight / 10).toFixed(0)} kg</div>
-        <divAbilities: ${pokemonJson.abilities[0].ability.name}, 
-                        ${pokemonJson.abilities[1] == undefined? '' : pokemonJson.abilities[1].ability.name}</div>
+        <div class="stats-line">
+            <div class="about-line-left">Spicie: </div><div class="stat-value">${pokemonJson.species.name}</div>
+        </div>
+        <div class="stats-line">
+            <div class="about-line-left">Height: </div><div class="stat-value">${(pokemonJson.height /10).toFixed(0)} m</div>
+        </div>
+        <div class="stats-line">
+            <div class="about-line-left">Weight: </div><div class="stat-value">${(pokemonJson.weight / 10).toFixed(0)} kg</div>
+        </div>
+        <div class="stats-line">
+            <div class="about-line-left">Abilities: </div><div class="stat-value">${pokemonJson.abilities[0].ability.name}, 
+                            ${pokemonJson.abilities[1] == undefined? '' : pokemonJson.abilities[1].ability.name}</div>
+        </div>
     </div>
     `
 }

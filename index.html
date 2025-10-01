@@ -21,14 +21,14 @@
           <ul class="ul_big-card">
             <li id="li-about">About</li>
             <li id="li-stats">Stats</li>
-            <li id="li-moves">Moves</li>
-            <li id="li-evolution">Evolution</li>
+            <!-- <li id="li-moves">Moves</li>
+            <li id="li-evolution">Evolution</li> -->
           </ul>
         </nav>
         <div class="big-card-details" id="big-card-details"></div>
         <div class="arrows-container">
-        <button class="btn btn-primary" id="previous-button">back</button>
-        <button class="btn btn-primary" id="next-button">forward</button>
+        <button class="btn btn-primary" id="previous-button">previous</button>
+        <button class="btn btn-primary" id="next-button">next</button>
       </div>
       </div>
     </div>
@@ -57,7 +57,7 @@
     <main class="width-1440px">
       <div class="search-overlay" id="search-overlay"></div>
       <div class="pokemon-container" id="pokemon-container"></div>
-      <button class="btn btn-primary more-button" onclick="renderNextPokemons()">more</button>
+      <button class="btn btn-primary more-button" id="more" onclick="renderNextPokemons()">more</button>
     </main>
   </div>
 <!-- ----------------------- Footer ----------------------------- -->
