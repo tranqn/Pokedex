@@ -129,11 +129,13 @@ function searchPokemons(){
         clearSearchContainer();
         searchOverlayRef.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+        document.body.style['overflow-y'] = 'hidden';
         renderSearchResult(compareWord(word),word);
     } else{
         clearSearchContainer();
         searchOverlayRef.style.display = 'none';
         document.body.style.overflow = ''
+        document.body.style['overflow-y'] = '';
     }
 }
 
@@ -153,39 +155,43 @@ function compareWord(word){
 
 //matchedPokemons is a array with Pokemon IDs
 async function renderSearchResult(matchedPokemons, word){
+    openloadingSpinner();
     if (matchedPokemons.length === 0) {
         renderNoResult(word);
         return;
     }
 
-    let allHTML = '';
-    let allPokemon = [];
+    let allPokemon = await getSearchedPokemons(matchedPokemons);
+    includeTypes(allPokemon);
+    closeloadingSpinner();
+}
 
-    // Schritt 1: Pokemon-Daten nacheinander laden
-    for (let i = 0; i < matchedPokemons.length; i++) {
-        let id = matchedPokemons[i];
-        let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-        if (!response.ok) {
-            console.warn("Fehler beim Laden von Pokemon:", id);
-            continue;
-        }
-        let pokemon = await response.json();
-        allPokemon.push(pokemon);
 
-        // HTML gleich dazu bauen
-        allHTML += pokemonCardTemplate(pokemon, id);
-    }
 
-    // Schritt 2: Alles auf einmal ins DOM schreiben
-    searchOverlayRef.innerHTML = allHTML;
-
-    // Schritt 3: Types und Backgrounds setzen
+function includeTypes(allPokemon){
     for (let i = 0; i < allPokemon.length; i++) {
         let pokemon = allPokemon[i];
         let colorArray = loadPokemonType(pokemon, pokemon.id);
         loadPokemonBg(colorArray, pokemon.id);
     }
 }
+
+async function getSearchedPokemons(matchedPokemons){
+    let allPokemon = [];
+    let allHTML = '';
+    
+    for (let i = 0; i < matchedPokemons.length; i++) {
+        let id = matchedPokemons[i];
+        let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+
+        let pokemon = await response.json();
+        allPokemon.push(pokemon);
+        allHTML += pokemonCardTemplate(pokemon, id);
+    }
+    searchOverlayRef.innerHTML = allHTML;
+    return allPokemon;
+}
+
 
 async function renderPokemonSearch(Index){
     let fetchedPokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${Index}`);
@@ -194,8 +200,8 @@ async function renderPokemonSearch(Index){
     loadPokemonBg(loadPokemonType(fetchedPokemon, Index),Index);
 }
 
-function renderNoResult(){
-    searchOverlayRef.innerHTML += noResultTemplate();
+function renderNoResult(word){
+    searchOverlayRef.innerHTML += noResultTemplate(word);
 }
 
 function clearPokemonContainer(){

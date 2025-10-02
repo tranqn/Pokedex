@@ -39,8 +39,8 @@
       <nav class="nav">
 
         <div>
-          <img class="pokedex-icon" src="./assets/img/pokemon-sign.png" alt="Pokedex image" onclick="reset()">
-          <span><- reset</span>
+          <img class="pokedex-icon" src="./assets/img/pokemon-sign.png" alt="Pokedex image" style="cursor: default;">
+          <span></span>
         </div>
         <h1>Pokédex</h1>
         <div>
@@ -51,11 +51,13 @@
       </nav>
     </header>
   </div>
+  <div class="widescreen">
+    <div class="search-overlay" id="search-overlay"></div>
+  </div>
 <!-- ----------------------- Main -------------------------------- -->
 
   <div class="widescreen">
     <main class="width-1440px">
-      <div class="search-overlay" id="search-overlay"></div>
       <div class="pokemon-container" id="pokemon-container"></div>
       <button class="btn btn-primary more-button" id="more" onclick="renderNextPokemons()">more</button>
     </main>

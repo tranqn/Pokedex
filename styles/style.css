@@ -1,4 +1,19 @@
+/* Für Webkit-Browser (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 4px;              /* Breite der Scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Schiene transparent */
+}
+
+::-webkit-scrollbar-thumb {
+  background: white;       /* Daumen weiß */
+  border-radius: 2px;      /* abgerundet */
+}
+
 body{
+    height: 100%;
     background: black;
     color: white;
 }
@@ -47,10 +62,12 @@ footer{
     align-content: flex-start;
     gap: 4px;
     position: fixed;
-    height: 100%;
+    height: calc(100vh - 40px);
     width: 100%;
     z-index: 2;
     background-color: rgb(0, 0, 0);
+    overflow-y: auto;
+    overflow-x: hidden; 
 }
 
 .pokemon-container{
@@ -79,7 +96,7 @@ footer{
     background: rgba(91, 91, 91, 0.279);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
-    /* backdrop-filter: blur(20px); */
+    cursor: pointer;
     box-shadow: 2px 2px 20px rgb(255 255 255 / 5%);
 }
 
