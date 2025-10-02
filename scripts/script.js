@@ -7,16 +7,16 @@ const bigCardImageRef = document.getElementById('big-card-image');
 const bigCardDetailsRef = document.getElementById('big-card-details');
 const liAboutRef = document.getElementById('li-about');
 const liStatsRef = document.getElementById('li-stats');
-const liMovesRef = document.getElementById('li-moves');
-const liEvolutionRef = document.getElementById('li-evolution');
+// const liMovesRef = document.getElementById('li-moves');
+// const liEvolutionRef = document.getElementById('li-evolution');
 const searchOverlayRef = document.getElementById('search-overlay');
 const pokemonContainerRef = document.getElementById('pokemon-container');
 const loadingspinnerRef = document.getElementById('loadingspinner');
 const previousButtonRef = document.getElementById('previous-button');
 const nextButtonRef = document.getElementById('next-button');
 const moreButtonRef = document.getElementById('more');
+
 // Global Variables
-let pokemonList = [];       //Store Pokemon-JSON    apiIndex not index of PokeList!!!
 let pokemonNames = [];      //Array with all Pokemon Names
 let apiIndex = 1;           //Iterate through Pokedex
 let currentOverlayIndex = null;
@@ -42,7 +42,7 @@ async function renderNextPokemons(){
 }
 
 
-//------------------------------------------------------------ Create Pokemon-card ------------------
+//----------------------------------------- Create Pokemon-card ------------------
 
 async function renderPokemon(apiIndex){
     let fetchedPokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${apiIndex}`);
@@ -106,10 +106,10 @@ function createGradient(colorArray){
     }
 }
 
-//-------------------------------------------------------- Get all Pokemon Names in PokemonNames ------------------
+//----------------------------- Get all Pokemon Names in PokemonNames ------------------
 
 async function getAllNames(){
-    let allNames = await fetch('https://pokeapi.co/api/v2/pokemon?limit=2000&offset=0');
+    let allNames = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1025&offset=0');
     allNames = await allNames.json();
     
     loadAllNames(allNames);
@@ -121,7 +121,7 @@ function loadAllNames(allNames){
     }
 }
 
-//----------------------------------------------------------- Search Pokemon -------------------------------------
+//----------------------------------- Search Pokemon -------------------------------------
 
 function searchPokemons(){
     const word = document.getElementById('search-input').value.toLowerCase();
@@ -150,18 +150,6 @@ function compareWord(word){
     }
     return pokemonIds;
 }
-
-// async function renderSearchResult(matchedPokemons, word){
-//     openloadingSpinner();
-//     if(matchedPokemons.length != 0){
-//         for(let i = 0; i < matchedPokemons.length; i++){
-//             await renderPokemonSearch(matchedPokemons[i]);
-//         }
-//     } else{
-//         renderNoResult(word);
-//     }
-//     closeloadingSpinner();
-// }
 
 //matchedPokemons is a array with Pokemon IDs
 async function renderSearchResult(matchedPokemons, word){
@@ -219,7 +207,6 @@ function clearSearchContainer(){
 }
 
 function reset(){
-    pokemonList = [];
     pokemonNames = [];
     apiIndex = 1;
     pokemonContainerRef.innerHTML = '';
@@ -227,13 +214,13 @@ function reset(){
     init();
 }
 
-//------------------------------------------------------------- Overlay ---------------------------------
-function openOverlay(apiIndex){
+//------------------------------------------ Overlay ---------------------------------
+function openOverlay(ID){
     overlayRef.style.display = 'block';
     overlayStopPropagation();
     document.body.style.overflow = 'hidden';
     document.body.style.width = '98%';
-    loadOverlay(apiIndex);
+    loadOverlay(ID);
 }
 
 function closeOverlay(){
@@ -248,27 +235,11 @@ function overlayStopPropagation(){
     });
 }
 
-// async function loadOverlay(apiIndex){
-//     let pokemonJson = await fetch(`https://pokeapi.co/api/v2/pokemon/${apiIndex}`);
-//     pokemonJson = await pokemonJson.json();
-//     bigCardImageBackgroundRef.style.background = searchTypeColor(pokemonJson, 0);
-//     bigCardImageRef.src = `${pokemonJson.sprites.other['official-artwork'].front_default}`;
-//     renderAbout(pokemonJson);
-//     if(apiIndex == 1){
-//         previousButtonRef.disabled = true;
-//     } else if(apiIndex == 1025){
-//         nextButtonRefButtonRef.disabled = false;
-//     } else{
-//         previousButtonRef.disabled = false;
-//     }
-//     // overlayNavEvents(apiIndex);
-// }
-
-async function loadOverlay(apiIndex){
-    currentOverlayIndex = apiIndex; // merken
-    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${apiIndex}`);
+async function loadOverlay(ID){
+    currentOverlayIndex = ID; // merken
+    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${ID}`);
     if (!response.ok) {
-        console.error("Pokémon nicht gefunden:", apiIndex);
+        console.error("Pokémon nicht gefunden:", ID);
         return;
     }
     currentPokemonJson = await response.json();
@@ -279,6 +250,7 @@ async function loadOverlay(apiIndex){
 
     // Button-Status aktualisieren
     previousButtonRef.disabled = (currentOverlayIndex === 1);
+    nextButtonRef.disabled = (currentOverlayIndex === 1025);
 }
 
 function renderAbout(pokemonJson){
@@ -301,35 +273,6 @@ function renderEvolution(pokemonJson){
     bigCardDetailsRef.innerHTML += evolutionTemplate(pokemonJson);
 }
 
-// async function overlayNavEvents(apiIndex){
-//     let pokemonJson = await fetch(`https://pokeapi.co/api/v2/pokemon/${apiIndex}`);
-//     pokemonJson = await pokemonJson.json();
-
-//     liAboutRef.addEventListener('click', function () {
-//         renderAbout(pokemonJson);
-//     });
-
-//     liStatsRef.addEventListener('click', function () {
-//         renderStats(pokemonJson);
-//     });
-
-//     liMovesRef.addEventListener('click', function () {
-//         renderMoves(pokemonJson);
-//     });
-
-//     liEvolutionRef.addEventListener('click', function () {
-//         renderEvolution(pokemonJson);
-//     });
-
-//     previousButtonRef.addEventListener('click', function() {
-//         previousPokemon(apiIndex);
-//     });
-
-//     nextButtonRef.addEventListener('click', function() {
-//         nextPokemon(apiIndex);
-//     });
-// }
-
 function initOverlayEvents(){
     previousButtonRef.addEventListener('click', () => {
         if (currentOverlayIndex > 1) {
@@ -347,21 +290,11 @@ function initOverlayEvents(){
     // liEvolutionRef.addEventListener('click', () => renderEvolution(currentPokemonJson));
 }
 
-//------------------------------------------------------------- loadingspinner -----------------------
+//------------------------------------------- loadingspinner -----------------------
 function openloadingSpinner(){
-    // loadingspinnerRef.style.display = 'flex';
+    loadingspinnerRef.style.display = 'flex';
 }
 
 function closeloadingSpinner(){
-    // loadingspinnerRef.style.display = 'none';
-}
-
-function previousPokemon(ID){
-    loadOverlay(ID-1);
-    overlayNavEvents(ID-1);
-}
-
-function nextPokemon(ID){
-    loadOverlay(ID+1);
-    overlayNavEvents(ID+1);
+    loadingspinnerRef.style.display = 'none';
 }
