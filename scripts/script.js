@@ -7,8 +7,6 @@ const bigCardImageRef = document.getElementById('big-card-image');
 const bigCardDetailsRef = document.getElementById('big-card-details');
 const liAboutRef = document.getElementById('li-about');
 const liStatsRef = document.getElementById('li-stats');
-// const liMovesRef = document.getElementById('li-moves');
-// const liEvolutionRef = document.getElementById('li-evolution');
 const searchOverlayRef = document.getElementById('search-overlay');
 const pokemonContainerRef = document.getElementById('pokemon-container');
 const loadingspinnerRef = document.getElementById('loadingspinner');
@@ -292,8 +290,6 @@ function initOverlayEvents(){
 
     liAboutRef.addEventListener('click', () => renderAbout(currentPokemonJson));
     liStatsRef.addEventListener('click', () => renderStats(currentPokemonJson));
-    // liMovesRef.addEventListener('click', () => renderMoves(currentPokemonJson));
-    // liEvolutionRef.addEventListener('click', () => renderEvolution(currentPokemonJson));
 }
 
 //------------------------------------------- loadingspinner -----------------------
